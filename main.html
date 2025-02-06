@@ -4,133 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Custom Video Player</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #333;
-      color: white;
-    }
-
-    .player {
-      max-width: 800px;
-      margin: 50px auto;
-      background-color: black;
-    }
-
-    .player__video {
-      width: 100%;
-      display: block;
-    }
-
-    .player__controls {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px;
-    }
-
-    .player__button {
-      background-color: #ff6b6b;
-      border: none;
-      padding: 10px;
-      color: white;
-      cursor: pointer;
-    }
-
-    .progress {
-      width: 70%;
-    }
-
-    .progress__filled {
-      background-color: #ff6b6b;
-      height: 5px;
-    }
-
-    input[type="range"] {
-      width: 20%;
-    }
-
-    button {
-      background-color: #444;
-      border: none;
-      padding: 10px;
-      color: white;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #666;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
   <div class="player">
-    <video class="player__video viewer" src="your-video-file.mp4"></video>
+    <video class="player__video viewer" src="download.mp4"></video>
     <div class="player__controls">
-      <button class="player__button toggle">►</button>
-      <input type="range" class="progress" value="0">
-      <div class="progress__filled"></div>
-      <input type="range" class="volume" value="100" max="100">
-      <input type="range" class="playbackSpeed" value="1" step="0.1" min="0.5" max="2">
-      <button class="skip-10">« 10s</button>
-      <button class="skip-25">25s »</button>
+      <div class="progress">
+        <div class="progress__filled"></div>
+      </div>
+      <button class="player__button toggle" title="Toggle Play">►</button>
+      <input type="range" name="volume" class="player__slider" min="0" max="1" step="0.05" value="1">
+      <input type="range" name="playbackRate" class="player__slider" min="0.5" max="2" step="0.1" value="1">
+      <button class="player__button skip" data-skip="-10">« 10s</button>
+      <button class="player__button skip" data-skip="25">25s »</button>
     </div>
   </div>
-
-  <script>
-    const video = document.querySelector('.player__video');
-    const playPauseButton = document.querySelector('.player__button');
-    const progress = document.querySelector('.progress');
-    const progressFilled = document.querySelector('.progress__filled');
-    const volumeControl = document.querySelector('.volume');
-    const speedControl = document.querySelector('.playbackSpeed');
-    const skip10Button = document.querySelector('.skip-10');
-    const skip25Button = document.querySelector('.skip-25');
-
-    // Play/Pause Toggle
-    playPauseButton.addEventListener('click', () => {
-      if (video.paused) {
-        video.play();
-        playPauseButton.textContent = '❚ ❚';
-      } else {
-        video.pause();
-        playPauseButton.textContent = '►';
-      }
-    });
-
-    // Update Progress Bar
-    video.addEventListener('timeupdate', () => {
-      const progressPercentage = (video.currentTime / video.duration) * 100;
-      progress.value = progressPercentage;
-      progressFilled.style.width = `${progressPercentage}%`;
-    });
-
-    // Skip Back 10s
-    skip10Button.addEventListener('click', () => {
-      video.currentTime -= 10;
-    });
-
-    // Skip Forward 25s
-    skip25Button.addEventListener('click', () => {
-      video.currentTime += 25;
-    });
-
-    // Adjust Volume
-    volumeControl.addEventListener('input', (e) => {
-      video.volume = e.target.value / 100;
-    });
-
-    // Adjust Playback Speed
-    speedControl.addEventListener('input', (e) => {
-      video.playbackRate = e.target.value;
-    });
-
-    // Update Progress on Click
-    progress.addEventListener('input', (e) => {
-      const newTime = (e.target.value / 100) * video.duration;
-      video.currentTime = newTime;
-    });
-  </script>
-
+  <script src="scripts.js"></script>
 </body>
 </html>
